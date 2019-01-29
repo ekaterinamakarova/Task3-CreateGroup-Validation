@@ -31,6 +31,7 @@ public class CreateGroup {
     @FindBy(xpath = "//tr[2]/td[5]") private List<WebElement> dateStartCells;
     @FindBy(xpath = "//tr[4]/td[6]") private List<WebElement> dateEndCells;
     @FindBy(css="[role] [role='option']:nth-of-type(1)") private WebElement countryListBoxElement;
+    @FindBy(css="button[aria-label='Delete']") private WebElement deleteButton;
 
 
 
@@ -47,61 +48,72 @@ public class CreateGroup {
         //All fields are empty
         sendToPartnersBtn.click();
         Assert.assertEquals(7,requiredFields.size());
-        Assert.assertEquals(true,requiredFieldCountry.isEnabled());
+        Assert.assertEquals(true,requiredFieldCountry.isDisplayed());
         Assert.assertEquals(4, errors_1.size());
         Assert.assertEquals(3,errors_2.size());
         Assert.assertEquals(1,errors_3.size());
+        WebElement hint_1=driver.switchTo().activeElement();
+        Assert.assertEquals("e.g. Italy Fashion Tour", hint_1.getAttribute("placeholder"));
 
-         //Group Request Name
+        //Group Request Name
         requiredFields.get(0).sendKeys(" ");
         sendToPartnersBtn.click(); sendToPartnersBtn.click();
         Assert.assertEquals(6,requiredFields.size());
         Assert.assertEquals(3, errors_1.size());
         Assert.assertEquals(3,errors_2.size());
-        driver.switchTo().activeElement();
-//        Assert.assertEquals();
+        WebElement hint_2=driver.switchTo().activeElement();
+        Assert.assertEquals("e.g. Italian, Greek, Swedish", hint_2.getAttribute("placeholder"));
 
-         //Number of Guests
-        requiredFields.get(1).sendKeys("1");
+        //Group Nationality
+        requiredFields.get(0).sendKeys(" ");
         sendToPartnersBtn.click();
         Assert.assertEquals(5,requiredFields.size());
-        Assert.assertEquals(3, errors_1.size());
-        Assert.assertEquals(2,errors_2.size());
+        Assert.assertEquals(2, errors_1.size());
+        Assert.assertEquals(3,errors_2.size());
+        WebElement hint_3=driver.switchTo().activeElement();
+        Assert.assertEquals("e.g. 50", hint_3.getAttribute("placeholder"));
 
-        //Group Departure Location
-        requiredFields.get(2).sendKeys(" ");
+         //Number of Guests
+        requiredFields.get(0).sendKeys("1");
         sendToPartnersBtn.click();
         Assert.assertEquals(4,requiredFields.size());
         Assert.assertEquals(2, errors_1.size());
         Assert.assertEquals(2,errors_2.size());
+        WebElement hint_4=driver.switchTo().activeElement();
+        Assert.assertEquals("e.g. 25", hint_4.getAttribute("placeholder"));
 
-        //City #1
-        requiredFields.get(2).sendKeys(" ");
+        //Number of Rooms
+        requiredFields.get(0).sendKeys("76");
         sendToPartnersBtn.click();
         Assert.assertEquals(3,requiredFields.size());
-        Assert.assertEquals(1, errors_1.size());
-        Assert.assertEquals(2,errors_2.size());
+        Assert.assertEquals(2, errors_1.size());
+        Assert.assertEquals(1,errors_2.size());
+        WebElement hint_5=driver.switchTo().activeElement();
+        Assert.assertEquals("e.g. Krakow or Moscow", hint_5.getAttribute("placeholder"));
 
-        //Check-in Check-out
-        requiredFields.get(2).click();
-        dateStartCells.get(2).click();
-        dateEndCells.get(2).click();
-        Thread.sleep(500);
+        //Group Departure Location
+        requiredFields.get(0).sendKeys(" ");
         sendToPartnersBtn.click();
         Assert.assertEquals(2,requiredFields.size());
         Assert.assertEquals(1, errors_1.size());
         Assert.assertEquals(1,errors_2.size());
+        WebElement hint_6=driver.switchTo().activeElement();
+        Assert.assertEquals("e.g. Rome or New York", hint_6.getAttribute("placeholder"));
 
-        //Number of Rooms
-        Thread.sleep(500);
-        requiredFields.get(1).sendKeys("76");
+        //City #1
+        requiredFields.get(0).sendKeys(" ");
         sendToPartnersBtn.click();
         Assert.assertEquals(1,requiredFields.size());
-        Assert.assertEquals(1, errors_1.size());
-        Assert.assertEquals(0,errors_2.size());
+        Assert.assertEquals(0, errors_1.size());
+        Assert.assertEquals(1,errors_2.size());
+        WebElement hint_7=driver.switchTo().activeElement();
+        Assert.assertEquals(true, hint_7.isEnabled());
 
-        //Group Nationality
-        requiredFields.get(0).sendKeys(" ");
+        //Check-in Check-out
+        requiredFields.get(0).click();
+        dateStartCells.get(2).click();
+        dateEndCells.get(2).click();
+        Thread.sleep(500);
         sendToPartnersBtn.click();
         Assert.assertEquals(0,requiredFields.size());
         Assert.assertEquals(0, errors_1.size());
@@ -114,15 +126,13 @@ public class CreateGroup {
         Thread.sleep(500);
         Assert.assertEquals(0,errors_3.size());
 
-        //
+
+
+        //Disable Button Send To Partners Without Selected Partner
+        deleteButton.click();
+        Assert.assertEquals(false,sendToPartnersBtn.isEnabled());
+
     }
-
-
-
-
-
-
-
 
     private void scrollToElement(WebElement element){
         Actions actions=new Actions(driver);
