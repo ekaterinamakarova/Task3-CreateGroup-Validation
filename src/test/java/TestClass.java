@@ -47,7 +47,7 @@ public class TestClass {
             Main main=new Main(driver);
             CreateGroup createGroup = new CreateGroup(driver);
             main.toCreateGroupPage();
-            createGroup.createGroupChecking();
+            createGroup.createGroupErrorsChecking();
         }
 
         @AfterTest
