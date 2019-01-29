@@ -52,7 +52,7 @@ public class TestClass {
 
         @AfterTest
         public void exit () {
-          //  driver.quit();
+           driver.quit();
         }
 
 

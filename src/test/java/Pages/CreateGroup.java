@@ -126,12 +126,9 @@ public class CreateGroup {
         Thread.sleep(500);
         Assert.assertEquals(0,errors_3.size());
 
-
-
         //Disable Button Send To Partners Without Selected Partner
         deleteButton.click();
         Assert.assertEquals(false,sendToPartnersBtn.isEnabled());
-
     }
 
     private void scrollToElement(WebElement element){
