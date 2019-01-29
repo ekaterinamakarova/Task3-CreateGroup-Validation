@@ -1,11 +1,9 @@
 package Pages;
 
-import net.bytebuddy.asm.Advice;
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -18,6 +16,8 @@ public class CreateGroup {
         this.driver=driver;
         PageFactory.initElements(driver,this);
     }
+
+
 
     @FindBy(xpath="//span[contains(text(),'ADD PARTNER')]") private WebElement addPartnerBtn;
     @FindBy(css="tr[class] input") private List<WebElement> allChechboxes;
@@ -36,76 +36,77 @@ public class CreateGroup {
 
 
     public void createGroupErrorsChecking() throws InterruptedException {
-        Thread.sleep(1000);
-        scrollToElement(addPartnerBtn);
+        Helper helper= new Helper(driver);
+        helper.waitForClikable(addPartnerBtn);
         addPartnerBtn.click();
-        Thread.sleep(1000);
+        Thread.sleep(500);
         Assert.assertTrue(allChechboxes.size()!=0);
         allChechboxes.get(0).click();
         addPartnrBtn.click();
-        Thread.sleep(1000);
+
 
         //All fields are empty
+        helper.waitForClikable(sendToPartnersBtn);
         sendToPartnersBtn.click();
-        Assert.assertEquals(7,requiredFields.size());
+        helper.assertSize(7,requiredFields);
         Assert.assertEquals(true,requiredFieldCountry.isDisplayed());
-        Assert.assertEquals(4, errors_1.size());
-        Assert.assertEquals(3,errors_2.size());
-        Assert.assertEquals(1,errors_3.size());
+        helper.assertSize(4,errors_1);
+        helper.assertSize(3,errors_2);
+        helper.assertSize(1,errors_3);
         WebElement hint_1=driver.switchTo().activeElement();
-        Assert.assertEquals("e.g. Italy Fashion Tour", hint_1.getAttribute("placeholder"));
+        helper.assertText("e.g. Italy Fashion Tour",hint_1,"placeholder");
 
         //Group Request Name
-        requiredFields.get(0).sendKeys(" ");
+        helper.sendKeys(requiredFields,0," ");
         sendToPartnersBtn.click(); sendToPartnersBtn.click();
-        Assert.assertEquals(6,requiredFields.size());
-        Assert.assertEquals(3, errors_1.size());
-        Assert.assertEquals(3,errors_2.size());
+        helper.assertSize(6,requiredFields);
+        helper.assertSize(3,errors_1);
+        helper.assertSize(3,errors_2);
         WebElement hint_2=driver.switchTo().activeElement();
-        Assert.assertEquals("e.g. Italian, Greek, Swedish", hint_2.getAttribute("placeholder"));
+        helper.assertText("e.g. Italian, Greek, Swedish",hint_2,"placeholder");
 
         //Group Nationality
-        requiredFields.get(0).sendKeys(" ");
+        helper.sendKeys(requiredFields,0," ");
         sendToPartnersBtn.click();
-        Assert.assertEquals(5,requiredFields.size());
-        Assert.assertEquals(2, errors_1.size());
-        Assert.assertEquals(3,errors_2.size());
+        helper.assertSize(5,requiredFields);
+        helper.assertSize(2,errors_1);
+        helper.assertSize(3,errors_2);
         WebElement hint_3=driver.switchTo().activeElement();
-        Assert.assertEquals("e.g. 50", hint_3.getAttribute("placeholder"));
+        helper.assertText("e.g. 50",hint_3,"placeholder");
 
          //Number of Guests
-        requiredFields.get(0).sendKeys("1");
+        helper.sendKeys(requiredFields,0,"1");
         sendToPartnersBtn.click();
-        Assert.assertEquals(4,requiredFields.size());
-        Assert.assertEquals(2, errors_1.size());
-        Assert.assertEquals(2,errors_2.size());
+        helper.assertSize(4,requiredFields);
+        helper.assertSize(2,errors_1);
+        helper.assertSize(2,errors_2);
         WebElement hint_4=driver.switchTo().activeElement();
-        Assert.assertEquals("e.g. 25", hint_4.getAttribute("placeholder"));
+        helper.assertText("e.g. 25",hint_4,"placeholder");
 
         //Number of Rooms
-        requiredFields.get(0).sendKeys("76");
+        helper.sendKeys(requiredFields,0,"76");
         sendToPartnersBtn.click();
-        Assert.assertEquals(3,requiredFields.size());
-        Assert.assertEquals(2, errors_1.size());
-        Assert.assertEquals(1,errors_2.size());
+        helper.assertSize(3,requiredFields);
+        helper.assertSize(2,errors_1);
+        helper.assertSize(1,errors_2);
         WebElement hint_5=driver.switchTo().activeElement();
-        Assert.assertEquals("e.g. Krakow or Moscow", hint_5.getAttribute("placeholder"));
+        helper.assertText("e.g. Krakow or Moscow",hint_5,"placeholder");
 
         //Group Departure Location
-        requiredFields.get(0).sendKeys(" ");
+        helper.sendKeys(requiredFields,0," ");
         sendToPartnersBtn.click();
-        Assert.assertEquals(2,requiredFields.size());
-        Assert.assertEquals(1, errors_1.size());
-        Assert.assertEquals(1,errors_2.size());
+        helper.assertSize(2,requiredFields);
+        helper.assertSize(1,errors_1);
+        helper.assertSize(1,errors_2);
         WebElement hint_6=driver.switchTo().activeElement();
-        Assert.assertEquals("e.g. Rome or New York", hint_6.getAttribute("placeholder"));
+        helper.assertText("e.g. Rome or New York",hint_6,"placeholder");
 
         //City #1
-        requiredFields.get(0).sendKeys(" ");
+        helper.sendKeys(requiredFields,0," ");
         sendToPartnersBtn.click();
-        Assert.assertEquals(1,requiredFields.size());
-        Assert.assertEquals(0, errors_1.size());
-        Assert.assertEquals(1,errors_2.size());
+        helper.assertSize(1,requiredFields);
+        helper.assertSize(0,errors_1);
+        helper.assertSize(1,errors_2);
         WebElement hint_7=driver.switchTo().activeElement();
         Assert.assertEquals(true, hint_7.isEnabled());
 
@@ -115,25 +116,22 @@ public class CreateGroup {
         dateEndCells.get(2).click();
         Thread.sleep(500);
         sendToPartnersBtn.click();
-        Assert.assertEquals(0,requiredFields.size());
-        Assert.assertEquals(0, errors_1.size());
-        Assert.assertEquals(0,errors_2.size());
+        helper.assertSize(0,requiredFields);
+        helper.assertSize(0,errors_1);
+        helper.assertSize(0,errors_2);
 
         //Country
         requiredFieldCountry.click();
-        Thread.sleep(500);
+        helper.waitForClikable(countryListBoxElement);
         countryListBoxElement.sendKeys(Keys.ENTER);
-        Thread.sleep(500);
-        Assert.assertEquals(0,errors_3.size());
+        helper.getWebDriverWait();
+        helper.assertSize(0,errors_3);
 
         //Disable Button Send To Partners Without Selected Partner
+        Thread.sleep(500);
         deleteButton.click();
         Assert.assertEquals(false,sendToPartnersBtn.isEnabled());
     }
 
-    private void scrollToElement(WebElement element){
-        Actions actions=new Actions(driver);
-        actions.moveToElement(element);
-        actions.perform();
-    }
+
 }

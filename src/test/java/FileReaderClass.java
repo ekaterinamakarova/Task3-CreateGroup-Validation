@@ -6,7 +6,7 @@ import java.util.List;
 
 public class FileReaderClass {
 
-    private String fileDirectory = "/home/user/Documents/CreateGroupDGROOPSValidation/src/test/java/credentials";
+    private String fileDirectory = "./src/test/java/credentials";
 
     public String readFromFile(int k) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileDirectory));
