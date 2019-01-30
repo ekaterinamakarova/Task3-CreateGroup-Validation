@@ -37,13 +37,11 @@ public class CreateGroup {
 
     public void createGroupErrorsChecking() throws InterruptedException {
         Helper helper= new Helper(driver);
-        helper.waitForClikable(addPartnerBtn);
+        helper.implicitWait(driver);
         addPartnerBtn.click();
-        Thread.sleep(500);
         Assert.assertTrue(allChechboxes.size()!=0);
         allChechboxes.get(0).click();
         addPartnrBtn.click();
-
 
         //All fields are empty
         helper.waitForClikable(sendToPartnersBtn);
@@ -114,7 +112,7 @@ public class CreateGroup {
         requiredFields.get(0).click();
         dateStartCells.get(2).click();
         dateEndCells.get(2).click();
-        Thread.sleep(500);
+        Thread.sleep(100);
         sendToPartnersBtn.click();
         helper.assertSize(0,requiredFields);
         helper.assertSize(0,errors_1);
@@ -124,14 +122,11 @@ public class CreateGroup {
         requiredFieldCountry.click();
         helper.waitForClikable(countryListBoxElement);
         countryListBoxElement.sendKeys(Keys.ENTER);
-        helper.getWebDriverWait();
         helper.assertSize(0,errors_3);
 
         //Disable Button Send To Partners Without Selected Partner
-        Thread.sleep(500);
+        helper.getWebDriverWait();
         deleteButton.click();
         Assert.assertEquals(false,sendToPartnersBtn.isEnabled());
     }
-
-
 }

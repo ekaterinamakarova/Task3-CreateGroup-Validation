@@ -18,8 +18,8 @@ public class Main {
     @FindBy (css = "div[id='Create Group']") private WebElement createGroupBtn;
 
     public void toCreateGroupPage() throws InterruptedException {
-        Helper helper = new Helper(driver);
-        helper.waitForClikable(createGroupBtn);
+       Helper helper = new Helper(driver);
+       helper.waitForClikable(createGroupBtn);
         createGroupBtn.click();
     }
 

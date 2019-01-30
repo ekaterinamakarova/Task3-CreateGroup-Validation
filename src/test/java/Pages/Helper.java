@@ -5,11 +5,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -23,15 +21,14 @@ public class Helper {
         this.driver=driver;
     }
 
-    public Boolean waitForStaleness(WebElement element) {
-        return getWebDriverWait().until(ExpectedConditions.stalenessOf(element));
-    }
-
 
    public WebElement waitForClikable(WebElement element) {
         return getWebDriverWait().until(ExpectedConditions.elementToBeClickable(element));
     }
 
+    public void implicitWait(WebDriver driver){
+        driver.manage().timeouts().implicitlyWait(5,SECONDS);
+    }
 
 
     public  Wait<WebDriver> getWebDriverWait() {
@@ -40,11 +37,6 @@ public class Helper {
                 .pollingEvery(250, MILLISECONDS)
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
-    }
-    public void scrollToElement(WebElement element){
-        Actions actions=new Actions(driver);
-        actions.moveToElement(element);
-        actions.perform();
     }
 
     public void assertSize(int i, List<WebElement> element){
@@ -58,4 +50,5 @@ public class Helper {
     public void sendKeys(List<WebElement> element, int i, String string){
         element.get(i).sendKeys(string);
     }
+
 }
